@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suchmaschine</title>
+    <script src="head.js"></script>
+    <title>Suche | CodeDevProjects</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,7 +38,7 @@
     <div id="results"></div>
 
     <script>
-        // Funktion zur Berechnung der Levenshtein-Distanz (Fehlertoleranz)
+        // Funktion zur Berechnung der Levenshtein-Distanz
         function levenshtein(a, b) {
             const matrix = Array.from({ length: b.length + 1 }, () =>
                 Array.from({ length: a.length + 1 }, () => 0)
