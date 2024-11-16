@@ -37,106 +37,81 @@
 
     <div id="results"></div>
     </div>
+<script>
+    // Funktion zur Berechnung der Levenshtein-Distanz
+    function levenshtein(a, b) {
+        const matrix = Array.from({
+            length: b.length + 1
+        }, () =>
+            Array.from({
+                length: a.length + 1
+            }, () => 0)
+        );
 
-    <script>
-        // Funktion zur Berechnung der Levenshtein-Distanz
-        function levenshtein(a, b) {
-            const matrix = Array.from({
-                length: b.length + 1
-            }, () =>
-                Array.from({
-                    length: a.length + 1
-                }, () => 0)
-            );
+        for (let i = 0; i <= a.length; i++) matrix[0][i] = i;
+        for (let j = 0; j <= b.length; j++) matrix[j][0] = j;
 
-            for (let i = 0; i <= a.length; i++) matrix[0][i] = i;
-            for (let j = 0; j <= b.length; j++) matrix[j][0] = j;
-
-            for (let j = 1; j <= b.length; j++) {
-                for (let i = 1; i <= a.length; i++) {
-                    if (b[j - 1] === a[i - 1]) {
-                        matrix[j][i] = matrix[j - 1][i - 1];
-                    } else {
-                        matrix[j][i] = Math.min(
-                            matrix[j - 1][i - 1] + 1, // Ersetzen
-                            matrix[j][i - 1] + 1, // Einfügen
-                            matrix[j - 1][i] + 1 // Löschen
-                        );
-                    }
+        for (let j = 1; j <= b.length; j++) {
+            for (let i = 1; i <= a.length; i++) {
+                if (b[j - 1] === a[i - 1]) {
+                    matrix[j][i] = matrix[j - 1][i - 1];
+                } else {
+                    matrix[j][i] = Math.min(
+                        matrix[j - 1][i - 1] + 1, // Ersetzen
+                        matrix[j][i - 1] + 1, // Einfügen
+                        matrix[j - 1][i] + 1 // Löschen
+                    );
                 }
             }
-
-            return matrix[b.length][a.length];
         }
 
-        // Funktion zur Durchführung der Fuzzy-Suche (mit Levenshtein-Distanz)
-        function fuzzyMatch(input, target, threshold = 3) {
-            return levenshtein(input, target) <= threshold;
-        }
+        return matrix[b.length][a.length];
+    }
 
-        // Suchfunktion, die sowohl Meta-Tags als auch Titel/Inhalt durchsucht
-        async function search() {
-            let input = document.getElementById('search-box').value.toLowerCase();
+    // Funktion zur Durchführung der Fuzzy-Suche (mit Levenshtein-Distanz)
+    function fuzzyMatch(input, target, threshold = 3) {
+        return levenshtein(input, target) <= threshold;
+    }
 
-            // Die JSON-Datenbank abrufen
-            let response = await fetch('datenbank.json');
-            let projekte = await response.json();
+    // Suchfunktion, die sowohl Meta-Tags als auch Titel/Inhalt durchsucht
+    async function search() {
+        let input = document.getElementById('search-box').value.toLowerCase();
 
-            let resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = ''; // Vorherige Ergebnisse löschen
+        // Die JSON-Datenbank abrufen
+        let response = await fetch('datenbank.json');
+        let projekte = await response.json();
 
-            projekte.forEach(projekt => {
-                // Suche in Titel, Inhalt, Meta-Schlüsselwörtern und Meta-Beschreibung
-                if (projekt.titel.toLowerCase().includes(input) ||
-                    projekt.inhalt.toLowerCase().includes(input) ||
-                    projekt.meta_keywords.toLowerCase().includes(input) ||
-                    projekt.meta_description.toLowerCase().includes(input) ||
-                    fuzzyMatch(input, projekt.titel.toLowerCase()) ||
-                    fuzzyMatch(input, projekt.inhalt.toLowerCase()) ||
-                    fuzzyMatch(input, projekt.meta_keywords.toLowerCase()) ||
-                    fuzzyMatch(input, projekt.meta_description.toLowerCase())) {
+        let resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = ''; // Vorherige Ergebnisse löschen
 
-                    let resultDiv = document.createElement('div');
-                    resultDiv.classList.add('result');
-                    resultDiv.innerHTML = `
-                    <h3><a href="${projekt.url}">${projekt.titel}</a></h3>
-                    <p>${projekt.inhalt}</p>
-                    `;
-                    resultsDiv.appendChild(resultDiv);
-                }
-            });
-        }
-    </script>
-    <!-- Hier wird der Footer geladen -->
-    <div id="footer-placeholder"></div>
+        projekte.forEach(projekt => {
+            // Wenn das Eingabefeld leer ist, zeige alle Projekte an
+            if (!input || 
+                projekt.titel.toLowerCase().includes(input) ||
+                projekt.inhalt.toLowerCase().includes(input) ||
+                projekt.meta_keywords.toLowerCase().includes(input) ||
+                projekt.meta_description.toLowerCase().includes(input) ||
+                fuzzyMatch(input, projekt.titel.toLowerCase()) ||
+                fuzzyMatch(input, projekt.inhalt.toLowerCase()) ||
+                fuzzyMatch(input, projekt.meta_keywords.toLowerCase()) ||
+                fuzzyMatch(input, projekt.meta_description.toLowerCase())) {
 
-    <!-- JavaScript zum Laden des Footers -->
-    <script>
-        // Funktion zum Laden des Footers
-        function loadFooter() {
-            fetch('footer.html') // Datei footer.html abrufen
-            .then(response => response.text()) // Inhalt als Text lesen
-            .then(data => {
-                document.getElementById('footer-placeholder').innerHTML = data;
-            });
-        }
+                let resultDiv = document.createElement('div');
+                resultDiv.classList.add('result');
+                resultDiv.innerHTML = `
+                <h3><a href="${projekt.url}">${projekt.titel}</a></h3>
+                <p>${projekt.inhalt}</p>
+                `;
+                resultsDiv.appendChild(resultDiv);
+            }
+        });
+    }
 
-        // Footer laden, sobald die Seite vollständig geladen ist
-        window.onload = loadFooter;
-    </script>
-    <!-- JavaScript zum Laden des Header -->
-    <script>
-        // Funktion zum Laden des Header
-        function loadFooter() {
-            fetch('header.html') // Datei header.html abrufen
-            .then(response => response.text()) // Inhalt als Text lesen
-            .then(data => {
-                document.getElementById('header-placeholder').innerHTML = data;
-            });
-        }
+    // Initialisiere die Suche, wenn die Seite geladen wird
+    document.addEventListener('DOMContentLoaded', () => {
+        search();
+    });
+</script>
 
-        // Header laden, sobald die Seite vollständig geladen ist
-        window.onload = loadFooter;
-    </script>
 </body>
 </html>
