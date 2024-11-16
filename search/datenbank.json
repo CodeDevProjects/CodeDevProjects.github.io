@@ -3,7 +3,7 @@
         "id": 1,
         "titel": "Raspberry Pi Setup",
         "inhalt": "Anleitung zur Einrichtung eines Raspberry Pi.",
-        "url": "/projekte/raspberry-pi-setup.html",
+        "url": "../projekte/raspberry-pi-setup.html",
         "meta_keywords": "raspberry pi, einrichtung, setup, tutorial",
         "meta_description": "Eine detaillierte Anleitung, um einen Raspberry Pi einzurichten."
     },
@@ -11,7 +11,7 @@
         "id": 2,
         "titel": "HTML/CSS Tutorial",
         "inhalt": "Ein detailliertes Tutorial zu HTML und CSS.",
-        "url": "/projekte/html-css-tutorial.html",
+        "url": "../projekte/html-css-tutorial.html",
         "meta_keywords": "html, css, webentwicklung, design",
         "meta_description": "Lerne HTML und CSS von Grund auf."
     }
