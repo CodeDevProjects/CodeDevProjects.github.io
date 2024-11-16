@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+<script src="head.js"></script>
+<title>404 - Site not Found | CodeDevProjects</title>
+
+</head>
+
+<body>
+    <!-- Hier wird der Header geladen -->
+    <div id="header-placeholder"></div>
+    
+    <div class="hero">
+        <h1 style="font-size: 100px; margin: 0px;">404</h1>
+        <h1>Oops! Seite nicht gefunden</h1>
+        <p>
+            Die angeforderte Seite existiert nicht mehr oder wurde verschoben.
+        </p>
+    </div>
+
+    <div class="container">
+        <section class="category">
+            <h2>Was kannst du tun?</h2>
+            <p>
+                Hier sind einige Links, die dich interessieren könnten:
+            </p>
+            <ul>
+                <li><a href="../index.html">Zur Startseite</a></li>
+                <li><a href="../nuetzlich/nuetzlich.html">Nützliche Dinge</a></li>
+                <li><a href="../unnuetzlich/unnuetzlich.html">Unnütze Dinge</a></li>
+                <li><a href="../games/games.html">Games</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <!-- Hier wird der Footer geladen -->
+    <div id="footer-placeholder"></div>
+
+    <!-- JavaScript zum Laden des Footers -->
+    <script>
+        // Funktion zum Laden des Footers
+        function loadFooter() {
+            fetch('footer.html') // Datei footer.html abrufen
+            .then(response => response.text()) // Inhalt als Text lesen
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+        }
+
+        // Footer laden, sobald die Seite vollständig geladen ist
+        window.onload = loadFooter;
+    </script>
+    <!-- JavaScript zum Laden des Header -->
+    <script>
+        // Funktion zum Laden des Header
+        function loadFooter() {
+            fetch('header.html') // Datei header.html abrufen
+            .then(response => response.text()) // Inhalt als Text lesen
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            });
+        }
+
+        // Header laden, sobald die Seite vollständig geladen ist
+        window.onload = loadFooter;
+    </script>
+</body>
+
+</html>
