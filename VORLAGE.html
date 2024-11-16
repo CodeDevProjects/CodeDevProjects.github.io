@@ -22,30 +22,12 @@
 <!-- Hier wird der Header geladen -->
 <div id="header-placeholder"></div>
 
-<!-- JavaScript zum Laden des Headers -->
-<script>
-    // Funktion zum Laden des Headers
-    function loadHeader() {
-        fetch('../header.html') // Datei header.html abrufen
-        .then(response => response.text()) // Inhalt als Text lesen
-        .then(data => {
-            document.getElementById('header-placeholder').innerHTML = data;
-        });
-    }
-
-    // Header laden, sobald die Seite vollständig geladen ist
-    window.onload = loadHeader;
-</script>
-
 <div class="hero">
     <h1>Willkommen auf der nützlichsten unnützen Seite im Web!</h1>
     <p>
         Entdecke nützliche und unnütze Dinge sowie tolle Spiele.
     </p>
 </div>
-
-
-
 <!-- Hier wird der Footer geladen -->
 <div id="footer-placeholder"></div>
 
@@ -53,7 +35,7 @@
 <script>
     // Funktion zum Laden des Footers
     function loadFooter() {
-        fetch('../footer.html') // Datei footer.html abrufen
+        fetch('footer.html') // Datei footer.html abrufen
         .then(response => response.text()) // Inhalt als Text lesen
         .then(data => {
             document.getElementById('footer-placeholder').innerHTML = data;
@@ -63,3 +45,19 @@
     // Footer laden, sobald die Seite vollständig geladen ist
     window.onload = loadFooter;
 </script>
+<!-- JavaScript zum Laden des Header -->
+<script>
+    // Funktion zum Laden des Header
+    function loadFooter() {
+        fetch('header.html') // Datei header.html abrufen
+        .then(response => response.text()) // Inhalt als Text lesen
+        .then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        });
+    }
+
+    // Header laden, sobald die Seite vollständig geladen ist
+    window.onload = loadFooter;
+</script>
+</body>
+</head>
