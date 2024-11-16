@@ -66,6 +66,8 @@
     </style>
 </head>
 <body>
+    <!-- Hier wird der Header geladen -->
+    <div id="header-placeholder"></div>
 
     <form id="emailForm" onsubmit="sendEmail(); return false;">
         <div class="flex-container">
@@ -132,6 +134,19 @@
         // Footer laden, sobald die Seite vollständig geladen ist
         window.onload = loadFooter;
     </script>
+    <!-- JavaScript zum Laden des Header -->
+    <script>
+        // Funktion zum Laden des Header
+        function loadFooter() {
+            fetch('header.html') // Datei header.html abrufen
+            .then(response => response.text()) // Inhalt als Text lesen
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            });
+        }
 
+        // Header laden, sobald die Seite vollständig geladen ist
+        window.onload = loadFooter;
+    </script>
 </body>
 </html>
