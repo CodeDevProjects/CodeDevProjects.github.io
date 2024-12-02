@@ -31,9 +31,12 @@
         const stopButton = document.getElementById('stopButton');
 
         startButton.addEventListener('click', () => {
-            if (!isPlaying) {
-                // AudioContext initialisieren
+            // Initialisierung des AudioContext nur bei Benutzerinteraktion
+            if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            if (!isPlaying) {
                 oscillator = audioContext.createOscillator();
                 oscillator.type = 'sine'; // Sinuswelle
                 oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // Frequenz 440 Hz (A4)
