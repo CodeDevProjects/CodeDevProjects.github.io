@@ -11,7 +11,7 @@
             margin: 20px;
         }
         input[type="range"] {
-        width: 300px; /* Breite in Pixeln angeben */
+        width: 80%; /* Breite in Pixeln angeben */
         }
     </style>
 </head>
@@ -19,7 +19,7 @@
     <h1>Tonerzeuger</h1>
     
     <label for="frequencySlider">Frequenz: <span id="frequencyValue">440</span> Hz</label>
-    <input type="range" id="frequencySlider" min="-1000" max="2000" value="440">
+    <input type="range" id="frequencySlider" min="-1000" max="4000" value="440">
     
     <h2>Wellenform auswählen:</h2>
     <button onclick="setWaveform('sine')">Sinus</button>
