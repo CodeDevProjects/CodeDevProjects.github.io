@@ -3,75 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tonerzeuger</title>
+    <title>Einfacher Ton</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
         }
-        input[type="range"] {
-        width: 300px; /* Breite in Pixeln angeben */
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Tonerzeuger</h1>
-    
-    <label for="frequencySlider">Frequenz: <span id="frequencyValue">440</span> Hz</label>
-    <input type="range" id="frequencySlider" min="-1000" max="2000" value="440">
-    
-    <h2>Wellenform auswählen:</h2>
-    <button onclick="setWaveform('sine')">Sinus</button>
-    <button onclick="setWaveform('square')">Rechteck</button>
-    <button onclick="setWaveform('sawtooth')">Sägezahn</button>
-    <button onclick="setWaveform('triangle')">Dreieck</button>
-    
-    <br><br>
-    <button onclick="playTone()">Ton spielen</button>
-    <button onclick="stopTone()">Ton stoppen</button>
+    <h1>Ton starten und stoppen</h1>
+    <button id="startButton">Ton starten</button>
+    <button id="stopButton" disabled>Ton stoppen</button>
 
     <script>
         let audioContext;
         let oscillator;
         let isPlaying = false;
-        let currentWaveform = 'sine';
 
-        const frequencySlider = document.getElementById('frequencySlider');
-        const frequencyValue = document.getElementById('frequencyValue');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
 
-        frequencySlider.oninput = function() {
-            frequencyValue.innerHTML = this.value; // Aktualisiert den angezeigten Wert
-            if (isPlaying) {
-                oscillator.frequency.setValueAtTime(this.value, audioContext.currentTime);
-            }
-        }
-
-        function setWaveform(waveform) {
-            currentWaveform = waveform;
-            if (isPlaying) {
-                oscillator.type = currentWaveform; // Aktualisiert die Wellenform, wenn der Ton spielt
-            }
-        }
-
-        function playTone() {
+        startButton.addEventListener('click', () => {
             if (!isPlaying) {
+                // AudioContext initialisieren
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 oscillator = audioContext.createOscillator();
-                oscillator.type = currentWaveform; // Setzt die Wellenform
-                oscillator.frequency.setValueAtTime(frequencySlider.value, audioContext.currentTime);
+                oscillator.type = 'sine'; // Sinuswelle
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // Frequenz 440 Hz (A4)
                 oscillator.connect(audioContext.destination);
                 oscillator.start();
                 isPlaying = true;
-            }
-        }
 
-        function stopTone() {
+                // Buttons umschalten
+                startButton.disabled = true;
+                stopButton.disabled = false;
+            }
+        });
+
+        stopButton.addEventListener('click', () => {
             if (isPlaying) {
                 oscillator.stop();
+                oscillator.disconnect();
                 isPlaying = false;
+
+                // Buttons umschalten
+                startButton.disabled = false;
+                stopButton.disabled = true;
             }
-        }
+        });
     </script>
 </body>
 </html>
