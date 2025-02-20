@@ -6,9 +6,9 @@
     <title>Bild zu Base64</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        textarea { width: 100%; height: 200px; }
+        textarea { width: 100%; height: 200px; white-space: pre-wrap; word-wrap: break-word; }
         img { max-width: 100%; margin-top: 20px; }
-        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
     </style>
 </head>
 <body>
@@ -21,7 +21,9 @@
     <br>
     <img id="preview" src="" alt="Bildvorschau">
     <h3>HTML Struktur zum Einfügen</h3>
-    <pre id="htmlStructure"></pre>
+    <textarea id="htmlStructure" readonly></textarea>
+    <br>
+    <button onclick="copyHtmlToClipboard()">HTML Kopieren</button>
 
     <script>
         document.getElementById('imageInput').addEventListener('change', function(event) {
@@ -32,7 +34,7 @@
                     const base64String = reader.result;
                     document.getElementById('base64Output').value = base64String;
                     document.getElementById('preview').src = base64String;
-                    document.getElementById('htmlStructure').textContent = `<img src="${base64String}" alt="Eingebettetes Bild">`;
+                    document.getElementById('htmlStructure').value = `<img src="${base64String}" alt="Eingebettetes Bild">`;
                 };
                 reader.readAsDataURL(file);
             }
@@ -43,6 +45,13 @@
             textarea.select();
             document.execCommand('copy');
             alert('Base64-Code kopiert!');
+        }
+
+        function copyHtmlToClipboard() {
+            const textarea = document.getElementById('htmlStructure');
+            textarea.select();
+            document.execCommand('copy');
+            alert('HTML-Code kopiert!');
         }
     </script>
 </body>
