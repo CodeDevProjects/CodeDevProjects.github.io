@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bild zu Base64</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        textarea { width: 100%; height: 200px; }
+        img { max-width: 100%; margin-top: 20px; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h2>Bild zu Base64 Konverter</h2>
+    <input type="file" id="imageInput" accept="image/*">
+    <br><br>
+    <textarea id="base64Output" readonly></textarea>
+    <br>
+    <button onclick="copyToClipboard()">Kopieren</button>
+    <br>
+    <img id="preview" src="" alt="Bildvorschau">
+    <h3>HTML Struktur zum Einfügen</h3>
+    <pre id="htmlStructure"></pre>
+
+    <script>
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const base64String = reader.result;
+                    document.getElementById('base64Output').value = base64String;
+                    document.getElementById('preview').src = base64String;
+                    document.getElementById('htmlStructure').textContent = `<img src="${base64String}" alt="Eingebettetes Bild">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function copyToClipboard() {
+            const textarea = document.getElementById('base64Output');
+            textarea.select();
+            document.execCommand('copy');
+            alert('Base64-Code kopiert!');
+        }
+    </script>
+</body>
+</html>
